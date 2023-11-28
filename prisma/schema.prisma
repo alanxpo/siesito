@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model carreras {
+  idCarreras       Int          @id @default(autoincrement())
+  planEstudios     Int
+  jefeDepartamento String
+  creditos         Int
+  nombre           String
+  planestudios     planestudios @relation(fields: [planEstudios], references: [idPlan], onDelete: NoAction, onUpdate: NoAction, map: "fk_carreras_planestudios")
+  estudiante       estudiante[]
+
+  @@index([planEstudios], map: "fk_carreras_planestudios")
+}
+
+model docente {
+  idDocente           Int    @id @default(autoincrement())
+  nombre              String
+  curp                String
+  direccion           String
+  telefono            String
+  correoPersonal      String
+  correoInstitucional String
+  titulo              String
+  plazas              String
+  puesto              String
+  departamento        String
+}
+
+model documentos {
+  idDocumentos                   Int        @id @default(autoincrement())
+  actaNacimiento                 Bytes
+  certificadoBachillerato        Bytes
+  contratoEstudiante             Bytes
+  formatoActualizadoCurp         Bytes
+  resolucionRevalidacionEstudios Bytes
+  solicitudInscripcion           Bytes
+  cartaServicioSocial            Bytes
+  tarjetaResidenteTemporal       Bytes
+  idEstudiante                   Int
+  estudiante                     estudiante @relation(fields: [idEstudiante], references: [idEstudiante], map: "Documentos_idEstudiante_fkey")
+
+  @@index([idEstudiante], map: "Documentos_idEstudiante_fkey")
+}
+
+model estudiante {
+  idEstudiante          Int                 @unique @default(autoincrement())
+  numeroControl         String
+  nombre                String
+  modalidad             Int
+  curp                  String
+  fotoPerfil            String
+  telefono              String
+  correoInstitucional   String              @unique
+  correoPersonal        String
+  periodoIngreso        String
+  periodoActual         String
+  situacion             String
+  escuelaProcedencia    String
+  fechaNacimiento       DateTime
+  ciudad                String
+  direccion             String
+  idCarrera             Int
+  documentos            documentos[]
+  carreras              carreras            @relation(fields: [idCarrera], references: [idCarreras], map: "Estudiante_idCarrera_fkey")
+  modalidad_rel         modalidad           @relation("estudiante_modalidad", fields: [modalidad], references: [idModalidad], onDelete: NoAction, onUpdate: NoAction, map: "fk_estudiante_modalidad")
+  materiaestudiante_rel materiaestudiante[] @relation("materiaestudiante_estudiante")
+  usuarios              usuarios?
+
+  @@id([idEstudiante, modalidad])
+  @@index([idCarrera], map: "Estudiante_idCarrera_fkey")
+  @@index([modalidad], map: "fk_estudiante_modalidad")
+}
+
+model usuarios {
+  idUsuarios       Int        @id @default(autoincrement())
+  correoUsuarios   String     @unique
+  passwordUsuarios String
+  estudiante       estudiante @relation(fields: [correoUsuarios], references: [correoInstitucional], map: "Usuarios_correoUsuarios_fkey")
+}
+
+model materia {
+  idMateria             Int                 @id @default(autoincrement())
+  materiaPrevia         String?             @db.Text
+  materiaDependiente    String?             @db.Text
+  planEstudios          Int
+  nombre                String              @db.Text
+  creditos              Int
+  semestre              Int
+  planestudios          planestudios        @relation(fields: [planEstudios], references: [idPlan], onDelete: NoAction, onUpdate: NoAction, map: "materia_ibfk_1")
+  materiaestudiante_rel materiaestudiante[] @relation("materiaestudiante_materia")
+
+  @@index([planEstudios], map: "planEstudios")
+}
+
+model modalidad {
+  idModalidad     Int          @id @default(autoincrement())
+  nombreModalidad String       @db.VarChar(50)
+  estudiante_rel  estudiante[] @relation("estudiante_modalidad")
+}
+
+model planestudios {
+  idPlan            Int        @id @default(autoincrement())
+  nombrePlanEstudio String?    @db.VarChar(50)
+  carreras          carreras[]
+  materia           materia[]
+}
+
+model trabajador {
+  idTrabajador Int    @id @default(autoincrement())
+  puesto       String @db.VarChar(50)
+}
+
+model materiaestudiante {
+  idMateriaEstudiante Int        @id @default(autoincrement())
+  estudiante          Int
+  materia             Int
+  estado              Int
+  estudiante_rel      estudiante @relation("materiaestudiante_estudiante", fields: [estudiante], references: [idEstudiante], onDelete: NoAction, onUpdate: NoAction, map: "estudiante")
+  materia_rel         materia    @relation("materiaestudiante_materia", fields: [materia], references: [idMateria], onDelete: NoAction, onUpdate: NoAction, map: "materia")
+
+  @@index([estudiante], map: "estudiante_idx")
+  @@index([materia], map: "materia_idx")
+}
