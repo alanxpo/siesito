@@ -1,10 +1,8 @@
 import NextAuth from "next-auth";
 import { prisma } from "@/libs/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
-  
   session: {
     strategy: "jwt",
     maxAge: 60 * 15,
@@ -32,10 +30,6 @@ const handler = NextAuth({
           name: credentials.id,
         };
       },
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
   ],
 
