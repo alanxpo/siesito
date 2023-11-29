@@ -1,5 +1,6 @@
 "use client";
 
+import { IconExclamationCircle, IconX } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -7,8 +8,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(false);
   const router = useRouter();
 
   //Usuario de prueba
@@ -19,24 +21,41 @@ export default function LoginForm() {
     e.preventDefault();
 
     const res = await signIn("credentials", {
-      email,
+      id,
       password,
       redirect: false,
     });
 
     if (res.error) {
-      console.error(res.error);
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 10000);
     } else {
       router.push("/sie");
     }
   };
 
-  console.log(email, password);
   return (
-    <section className="flex flex-col space-y-4 bg-white shadow-md w-[90%] h-fit p-8 md:p-12 rounded-lg max-w-2xl">
-      <h2 className="font-bold text-2xl sm:text-4xl text-center my-2">
+    <section className="flex flex-col space-y-4 bg-white shadow-md w-full min-[520px]:w-[90%] h-fit px-4 min-[520px]:px-8 py-8 md:p-12 rounded-lg max-w-2xl">
+      <h2 className="font-bold text-3xl min-[520px]:text-4xl text-center my-2">
         Iniciar sesión
       </h2>
+      {errorMessage && (
+        <div className="flex flex-row items-center justify-between border border-[#c1121f] bg-[#ffe3e0] text-[#691e06] font-medium p-2 rounded-md ">
+          {" "}
+          <div className="flex flex-row gap-1 items-center">
+            <IconExclamationCircle color="#c1121f" />
+            <p>Datos de ingreso incorrectos.</p>
+          </div>
+          <button
+            onClick={() => setErrorMessage(!errorMessage)}
+            className="transition-colors hover:bg-white/20 rounded-full p-1"
+          >
+            <IconX color="#c1121f" />
+          </button>
+        </div>
+      )}
       <form
         action="submit"
         onSubmit={handleSubmit}
@@ -53,9 +72,9 @@ export default function LoginForm() {
             required={true}
             type="text"
             id="email"
-            className="form-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
+            value={id}
+            onChange={(e) => setId(parseInt(e.target.value))}
           ></input>
           <label
             htmlFor="password"
@@ -67,7 +86,7 @@ export default function LoginForm() {
             required={true}
             type="password"
             id="password"
-            className="form-input"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></input>

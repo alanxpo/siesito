@@ -22,40 +22,65 @@ import { signOut, useSession } from "next-auth/react";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { IconMenu, IconMenu2, IconX } from "@tabler/icons-react";
+import {
+  IconMenu,
+  IconMenu2,
+  IconX,
+  IconUser,
+  IconTable,
+  IconCoin,
+  IconFile,
+  IconUsersGroup,
+  IconBriefcase2,
+  IconCash,
+  IconFilePlus,
+  IconHome,
+  IconCalendar,
+  IconFileCheck,
+  IconDeviceIpadQuestion,
+  IconClipboard,
+  IconCheckupList,
+} from "@tabler/icons-react";
 import Link from "next/link";
 
 const userRoutes = [
   {
     route: "/sie/datos-generales",
     name: "Perfil",
+    icon: IconUser,
   },
 
   {
     route: "/sie/kardex",
     name: "Kardex",
+    icon: IconTable,
   },
   {
     route: "/sie/grupos-actuales",
     name: "Grupos Actuales",
+    icon: IconUsersGroup,
   },
   {
     route: "/sie/adeudos",
     name: "Adeudos",
+    icon: IconCoin,
   },
   {
     route: "/sie/residencias",
     name: "Residencias",
+    icon: IconBriefcase2,
   },
 
   {
     route: "/sie/carga-documentos",
     name: "Documentos",
+    icon: IconFile,
   },
 
   {
     route: "/sie/actividades-complementarias",
     name: "Act. Complementarias",
+    icon: IconFilePlus,
   },
 ];
 
@@ -63,33 +88,40 @@ const routes = [
   {
     route: "/sie",
     name: "Inicio",
+    icon: IconHome,
   },
 
   {
     route: "/sie/horario",
     name: "Horario",
+    icon: IconCalendar,
   },
   {
     route: "/sie/calificaciones",
     name: "Calificaciones",
+    icon: IconFileCheck,
   },
   {
     route: "/sie/encuesta-de-carga",
     name: "Encuesta de Carga",
+    icon: IconDeviceIpadQuestion,
   },
 
   {
     route: "/sie/reinscripciones",
     name: "Reinscripciones",
+    icon: IconClipboard,
   },
 
   {
     route: "/sie/servicios",
     name: "Servicios",
+    icon: IconCash,
   },
   {
     route: "/sie/evaluacion-docente",
     name: "Evaluación Docente",
+    icon: IconCheckupList,
   },
 ];
 
@@ -167,7 +199,7 @@ const HeaderNav = () => {
               className="h-14 gap-2"
             >
               <p className="font-semibold">Iniciaste sesión como:</p>
-              <p className="font-semibold">{session?.user.email}</p>
+              <p className="font-semibold">{session?.user.name}</p>
             </DropdownItem>
             <DropdownItem key="profile" textValue="logout" color="default">
               <Link href="/sie/datos-generales">Perfil</Link>
@@ -261,7 +293,7 @@ const HeaderNav = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-full px-4 py-2 justify-between items-center flex ">
-            <h2 className="text-2xl font-semibold">MENÚ</h2>
+            <h2 className="text-2xl font-semibold">MENU</h2>
             <button
               className="rounded-full  hover:bg-gray-400/40 p-1"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -275,8 +307,11 @@ const HeaderNav = () => {
               {routes.map((item, index) => (
                 <li
                   key={index}
-                  className="flex rounded-lg font-medium text-lg  hover:text-white hover:bg-secondary"
+                  className="flex rounded-lg font-medium text-lg text-gray-700  hover:text-white hover:bg-secondary"
                 >
+                  {item.icon && (
+                    <item.icon size={28} strokeWidth={2} className="m-2" />
+                  )}
                   <Link className="p-2 w-full h-full" href={item.route}>
                     {item.name}
                   </Link>
@@ -289,8 +324,11 @@ const HeaderNav = () => {
               {userRoutes.map((item, index) => (
                 <li
                   key={index}
-                  className="flex rounded-lg font-medium text-lg  hover:text-white hover:bg-secondary"
+                  className="flex rounded-lg items-center text-gray-700 font-medium text-lg  hover:text-white hover:bg-secondary"
                 >
+                  {item.icon && (
+                    <item.icon size={28} strokeWidth={2} className="m-2" />
+                  )}
                   <Link className="p-2 w-full h-full" href={item.route}>
                     {item.name}
                   </Link>
@@ -305,4 +343,3 @@ const HeaderNav = () => {
 };
 
 export default HeaderNav;
-
