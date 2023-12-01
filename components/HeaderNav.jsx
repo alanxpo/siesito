@@ -43,7 +43,7 @@ import Link from "next/link";
 
 const userRoutes = [
   {
-    route: "/sie/datos-generales",
+    route: "/sie",
     name: "Perfil",
     icon: IconUser,
   },
