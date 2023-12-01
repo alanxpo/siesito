@@ -11,10 +11,12 @@ import {
   TableCell,
 } from "@nextui-org/react";
 import { IconCoin } from "@tabler/icons-react";
+import Loading from "@/components/Loading";
 
 const Page = () => {
   const [actividades, setActividades] = useState([]);
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
 
   const fetchActividades = (studentId) => {
     fetch(`/api/complementarias/${studentId}`)
@@ -26,9 +28,11 @@ const Page = () => {
       })
       .then((data) => {
         setActividades(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error en la solicitud:", error);
+        setLoading(true);
       });
   };
 
@@ -40,7 +44,11 @@ const Page = () => {
 
   return (
     <SieLayout>
-      <section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto px-2 bg-red">
+      {
+        loading ? (
+          <Loading />
+          
+          ): (<section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto px-2 bg-red">
         <div className="shadow-md bg-white rounded-md p-2">
           <div className="flex gap-2 flex-row mb-2 items-center justify-center text-lg">
             <IconCoin /> <p>Actividades Complementarias</p>
@@ -73,7 +81,8 @@ const Page = () => {
             </TableBody>
           </Table>
         </div>
-      </section>
+      </section>)
+      }
     </SieLayout>
   );
 };

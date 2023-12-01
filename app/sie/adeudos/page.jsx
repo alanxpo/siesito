@@ -11,10 +11,12 @@ import {
   TableCell,
 } from "@nextui-org/react";
 import { IconCoin, IconSpeakerphone } from "@tabler/icons-react";
+import Loading from "@/components/Loading";
 
 const Adeudos = () => {
   const [debts, setDebts] = useState([]);
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
 
   const fetchDebts = (studentId) => {
     fetch(`/api/adeudos/${studentId}`)
@@ -26,9 +28,11 @@ const Adeudos = () => {
       })
       .then((data) => {
         setDebts(data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error en la solicitud:", error);
+        setLoading(true)
       });
   };
 
@@ -40,7 +44,10 @@ const Adeudos = () => {
 
   return (
     <SieLayout>
-      <section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto px-2 bg-red">
+      {
+        loading ? (
+          <Loading />
+        ) : (<section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto px-2 bg-red">
         <div className="shadow-md bg-white rounded-md p-2">
           <div className="flex gap-2 flex-row mb-2 items-center justify-center text-lg">
             <IconCoin /> <p>Adeudos</p>
@@ -98,7 +105,8 @@ const Adeudos = () => {
             </span>
           </div>
         </div>
-      </section>
+      </section>)
+      }
     </SieLayout>
   );
 };

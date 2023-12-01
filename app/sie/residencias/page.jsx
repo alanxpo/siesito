@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import SieLayout from "@/components/SieLayout";
+import Loading from "@/components/Loading";
 
 const ResidenciasPage = () => {
   const [residencia, setResidencia] = useState([]);
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
 
   const fetchResidencia = (studentId) => {
     fetch(`/api/residencias/${studentId}`)
@@ -17,9 +19,11 @@ const ResidenciasPage = () => {
       })
       .then((data) => {
         setResidencia(data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error en la solicitud:", error);
+        setLoading(true)
       });
   };
 
@@ -31,7 +35,10 @@ const ResidenciasPage = () => {
 
   return (
     <SieLayout>
-      <section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto">
+      {
+        loading ? (
+          <Loading /> 
+        ): (<section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto">
         <div className="bg-white shadow-md rounded p-6">
           <h1 className="text-lg font-bold mb-4 text-center">Detalles de la Residencia</h1>
           {residencia && (
@@ -134,7 +141,8 @@ const ResidenciasPage = () => {
             <p className="text-center mt-4">No se encontraron datos de residencia para este estudiante.</p>
           )}
         </div>
-      </section>
+      </section>)
+      }
     </SieLayout>
   );
 };

@@ -12,11 +12,13 @@ import {
 } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import { IconCreditCardPay } from "@tabler/icons-react";
+import Loading from "@/components/Loading";
 
 const Servicios = () => {
   const [services, setServices] = useState([]);
   const [catalogServices, setCatalogServices] = useState([]);
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
 
   const fetchServices = (studentId) => {
     fetch(`/api/servicios/${studentId}`)
@@ -28,9 +30,11 @@ const Servicios = () => {
       })
       .then((data) => {
         setServices(data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error en la solicitud de servicios:", error);
+        setLoading(true)
       });
   };
 
@@ -62,7 +66,10 @@ const Servicios = () => {
 
   return (
     <SieLayout>
-      <section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto px-2 bg-red">
+      {
+        loading ? (
+          <Loading />
+        ):(<section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full overflow-auto px-2 bg-red">
         <div className="shadow-md bg-white rounded-md p-2">
           <div className="flex gap-2 flex-row mb-2 items-center justify-center text-lg">
             <IconCreditCardPay /> <p>Servicios</p>
@@ -186,7 +193,8 @@ const Servicios = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </section>)
+      }
     </SieLayout>
   );
 };

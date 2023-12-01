@@ -6,6 +6,7 @@ import { Button } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import Loading from "@/components/Loading";
 
 const page = () => {
   const [subjects, setSubjects] = useState([]);
@@ -13,6 +14,7 @@ const page = () => {
   const [orderedSubjects, setOrderedSubjects] = useState([]);
 
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
 
   const fetchKardex = (studentId) => {
     fetch(`/api/kardex/${studentId}`)
@@ -24,9 +26,11 @@ const page = () => {
       })
       .then((data) => {
         setSubjects(data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error en la solicitud:", error);
+        setLoading(true)
       });
   };
 
@@ -73,8 +77,7 @@ const page = () => {
     }
   };
   const studentInfo = {
-    nombre: "Juan Pérez",
-    carrera: "Ingeniería en Informática",
+    nombre: session?.user.email.fullName,
   };
 
   const handlePrint = () => {
@@ -106,7 +109,11 @@ const page = () => {
 
   return (
     <SieLayout>
-      <section className="xl:mx-auto bg-white mx-4 mt-4 mb-4 xl:mt-8 max-w-7xl h-full px-2 shadow-md rounded-md p-2">
+      {
+        loading ? (
+          <Loading />
+        ): (
+          <section className="xl:mx-auto bg-white mx-4 mt-4 mb-4 xl:mt-8 max-w-7xl h-full px-2 shadow-md rounded-md p-2">
         <div className="overflow-auto h-full p-2 rounded-md">
           <div className="flex gap-2 flex-row mb-2 items-center justify-center text-lg">
             <IconTable /> <p>Kardex</p>
@@ -177,6 +184,8 @@ const page = () => {
           </Button>
         </div>
       </section>
+        )
+      }
     </SieLayout>
   );
 };

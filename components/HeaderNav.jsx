@@ -21,33 +21,24 @@ import { signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
-  IconMenu,
   IconMenu2,
   IconX,
   IconUser,
   IconTable,
   IconCoin,
   IconFile,
-  IconUsersGroup,
   IconBriefcase2,
   IconCash,
   IconFilePlus,
   IconHome,
   IconCalendar,
   IconFileCheck,
-  IconDeviceIpadQuestion,
-  IconClipboard,
   IconCheckupList,
 } from "@tabler/icons-react";
 import Link from "next/link";
 
 const userRoutes = [
-  {
-    route: "/sie",
-    name: "Perfil",
-    icon: IconUser,
-  },
-
+  
   {
     route: "/sie/adeudos",
     name: "Adeudos",
@@ -181,9 +172,7 @@ const HeaderNav = () => {
               <p className="font-semibold">Iniciaste sesión como:</p>
               <p className="font-semibold">{session?.user.email.email}</p>
             </DropdownItem>
-            <DropdownItem key="profile" textValue="logout" color="default">
-              <Link href="/sie/datos-generales">Perfil</Link>
-            </DropdownItem>
+           
 
             <DropdownItem
               onClick={() => signOut({ redirect: true, callbackUrl: "/" })}

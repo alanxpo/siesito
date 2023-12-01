@@ -9,6 +9,7 @@ import {
   IconSpeakerphone,
 } from "@tabler/icons-react";
 import HorarioTable from "@/components/HorarioTable";
+import Loading from "@/components/Loading";
 
 export default function Sie() {
   const [estudiante, setEstudiante] = useState({});
@@ -57,9 +58,7 @@ export default function Sie() {
   return (
     <SieLayout>
       {loading ? (
-        <div className=" fixed inset-0 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#6A1B31]"></div>
-        </div>
+        <Loading />
       ) : (
         <section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full ">
           <div className="items-center grid  xl:grid-cols-4  gap-2">
