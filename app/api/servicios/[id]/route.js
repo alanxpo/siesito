@@ -3,18 +3,20 @@ import { prisma } from "@/libs/prisma";
 
 export async function GET(request, { params: { id } }) {
   try {
-    const kardex = await prisma.materiaestudiante.findMany({
-      where: { estudiante: Number(id) },
+    const servicios = await prisma.serviciosestudiante.findMany({
+      where: {
+        estudianteServicio: Number(id),
+      },
       include: {
-        materia_materiaestudiante_materiaTomateria: true,
+        servicios: true,
       },
     });
-    if (!kardex)
+    if (!servicios)
       return NextResponse.json(
-        { message: "Estudiante no encontrado" },
+        { message: "No se ha encontrado un historial de servicios" },
         { status: 404 }
       );
-    return NextResponse.json(kardex);
+    return NextResponse.json(servicios);
   } catch (error) {
     if (error instanceof Error)
       return NextResponse.json(error.message, { status: 500 });

@@ -4,11 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
-  
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 15,
-  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -21,6 +16,14 @@ const handler = NextAuth({
           where: {
             estudianteUsuarios: Number(credentials.id),
           },
+          include: {
+            estudiante: {
+              select: {
+                nombre: true,
+                correoInstitucional: true,
+              },
+            },
+          },
         });
 
         if (!userFound) throw new Error("No existe esa matricula");
@@ -28,9 +31,15 @@ const handler = NextAuth({
           userFound.passwordUsuarios == credentials.password;
         if (!validPassword) throw new Error("Contrasena incorrecta");
 
-        return {
+        const user = {
           name: credentials.id,
+          email: {
+            email: userFound.estudiante.correoInstitucional,
+            fullName: userFound.estudiante.nombre,
+          },
         };
+
+        return user;
       },
     }),
     GoogleProvider({
@@ -39,6 +48,11 @@ const handler = NextAuth({
     }),
   ],
 
+  pages: { signIn: "/" },
+  session: {
+    //La sesión caduca en 15 minutos
+    maxAge: 60 * 15,
+  },
   secret: process.env.NEXTAUTH_SECRET,
 });
 

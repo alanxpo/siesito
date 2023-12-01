@@ -3,18 +3,24 @@ import { prisma } from "@/libs/prisma";
 
 export async function GET(request, { params: { id } }) {
   try {
-    const kardex = await prisma.materiaestudiante.findMany({
-      where: { estudiante: Number(id) },
+    const complementarias = await prisma.actividadcom.findMany({
+      where: {
+        estudianteAct: Number(id),
+      },
       include: {
-        materia_materiaestudiante_materiaTomateria: true,
+        docente: {
+          select: {
+            nombre: true,
+          },
+        },
       },
     });
-    if (!kardex)
+    if (!complementarias)
       return NextResponse.json(
-        { message: "Estudiante no encontrado" },
+        { message: "No tienes actividades complementarias" },
         { status: 404 }
       );
-    return NextResponse.json(kardex);
+    return NextResponse.json(complementarias);
   } catch (error) {
     if (error instanceof Error)
       return NextResponse.json(error.message, { status: 500 });

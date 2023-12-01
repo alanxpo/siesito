@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Button,
   Avatar,
   Dropdown,
   DropdownMenu,
@@ -14,13 +13,12 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { signOut, useSession } from "next-auth/react";
 
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   IconMenu,
@@ -50,16 +48,6 @@ const userRoutes = [
     icon: IconUser,
   },
 
-  {
-    route: "/sie/kardex",
-    name: "Kardex",
-    icon: IconTable,
-  },
-  {
-    route: "/sie/grupos-actuales",
-    name: "Grupos Actuales",
-    icon: IconUsersGroup,
-  },
   {
     route: "/sie/adeudos",
     name: "Adeudos",
@@ -92,6 +80,12 @@ const routes = [
   },
 
   {
+    route: "/sie/kardex",
+    name: "Kardex",
+    icon: IconTable,
+  },
+
+  {
     route: "/sie/horario",
     name: "Horario",
     icon: IconCalendar,
@@ -100,17 +94,6 @@ const routes = [
     route: "/sie/calificaciones",
     name: "Calificaciones",
     icon: IconFileCheck,
-  },
-  {
-    route: "/sie/encuesta-de-carga",
-    name: "Encuesta de Carga",
-    icon: IconDeviceIpadQuestion,
-  },
-
-  {
-    route: "/sie/reinscripciones",
-    name: "Reinscripciones",
-    icon: IconClipboard,
   },
 
   {
@@ -163,12 +146,7 @@ const HeaderNav = () => {
 
   return (
     <header>
-      <Navbar
-        onMenuOpenChange={setIsMenuOpen}
-        maxWidth="2xl"
-        height={"3rem"}
-        className="bg-primary"
-      >
+      <Navbar maxWidth="2xl" height={"3rem"} className="bg-primary">
         <NavbarContent>
           <NavbarBrand>
             <p className="font-bold text-white ml-1 hidden sm:flex">
@@ -186,10 +164,12 @@ const HeaderNav = () => {
                 as={"button"}
                 className="transition-transform"
                 color="secondary"
-                name="Albatro Jose"
+                name={session?.user.email.fullName}
                 size="sm"
               />
-              <p className="font-bold text-white ml-1 ">Usuario</p>
+              <p className="font-bold text-white ml-1 ">
+                {session?.user.email.fullName}
+              </p>
             </div>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -199,7 +179,7 @@ const HeaderNav = () => {
               className="h-14 gap-2"
             >
               <p className="font-semibold">Iniciaste sesión como:</p>
-              <p className="font-semibold">{session?.user.name}</p>
+              <p className="font-semibold">{session?.user.email.email}</p>
             </DropdownItem>
             <DropdownItem key="profile" textValue="logout" color="default">
               <Link href="/sie/datos-generales">Perfil</Link>
@@ -219,7 +199,6 @@ const HeaderNav = () => {
         <MenuNavBar />
       </Navbar>
       <Navbar
-        onMenuOpenChange={setIsMenuOpen}
         maxWidth="2xl"
         height={"3rem"}
         classNames={{
@@ -249,17 +228,13 @@ const HeaderNav = () => {
           <NavbarItem className="gap-2">
             <button
               id="menu"
-              className="text-gray-400  p-1 rounded-md border-gray-400 border transition-colors hover:border-white"
+              className="flex flex-row gap-1 items-center   p-1 rounded-md border-gray-400 border transition-colors hover:border-white"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <IconMenu2 size={25} />
+              <IconMenu2 size={30} />
+
+              <p className="font-bold text-inherit cursor-pointer ">Todo</p>
             </button>
-            <label
-              htmlFor="menu"
-              className="font-bold text-inherit cursor-pointer "
-            >
-              Todo
-            </label>
           </NavbarItem>
           {routes.map((item, index) => (
             <NavbarItem
@@ -293,7 +268,7 @@ const HeaderNav = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-full px-4 py-2 justify-between items-center flex ">
-            <h2 className="text-2xl font-semibold">MENU</h2>
+            <h2 className="text-2xl font-semibold">MENÚ</h2>
             <button
               className="rounded-full  hover:bg-gray-400/40 p-1"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
