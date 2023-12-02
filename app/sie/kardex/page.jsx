@@ -67,9 +67,9 @@ const page = () => {
   const getCellColor = (estado) => {
     switch (estado) {
       case 1:
-        return "bg-green-200";
-      case 2:
         return "bg-blue-200";
+      case 2:
+        return "bg-green-200";
       case 3:
         return "bg-gray-200";
       default:
@@ -97,7 +97,6 @@ const page = () => {
       // Añadir información del estudiante
       pdf.setFontSize(12);
       pdf.text(`Nombre del estudiante: ${studentInfo.nombre}`, 15, 25);
-      pdf.text(`Carrera: ${studentInfo.carrera}`, 15, 33);
   
       // Añadir la imagen centrada
       pdf.addImage(imgData, "PNG", (width - (width - 30)) / 2, 40, width - 30, height);
