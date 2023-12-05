@@ -50,6 +50,10 @@ const HorarioTable = () => {
     "sabado",
   ];
 
+  const filteredDaysOfWeek = daysOfWeek.filter((day) =>
+    schedules.some((clase) => clase[day] !== null)
+  );
+
   return (
     <Table
       id="horario-table"
@@ -69,7 +73,8 @@ const HorarioTable = () => {
         <TableColumn className="uppercase text-xs leading-normal xl:text-sm">
           Docente
         </TableColumn>
-        {daysOfWeek.map((day) => (
+
+        {filteredDaysOfWeek.map((day) => (
           <TableColumn
             key={day}
             className="uppercase text-xs leading-normal xl:text-sm"
@@ -87,7 +92,7 @@ const HorarioTable = () => {
             <TableCell>{clase.paq}</TableCell>
             <TableCell>{clase.materia.nombre}</TableCell>
             <TableCell>{clase.docente.nombre}</TableCell>
-            {daysOfWeek.map((day) => (
+            {filteredDaysOfWeek.map((day) => (
               <TableCell key={day}>{clase[day] || ""}</TableCell>
             ))}
             <TableCell>{clase.salon}</TableCell>
