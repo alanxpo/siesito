@@ -1,10 +1,9 @@
 "use client";
 
-import { IconExclamationCircle, IconLock, IconX } from "@tabler/icons-react";
-import { signIn, useSession } from "next-auth/react";
+import { IconExclamationCircle, IconX } from "@tabler/icons-react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IconMail, IconPassword } from "@tabler/icons-react";
 
 import { useState } from "react";
 
@@ -39,7 +38,7 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="flex flex-col space-y-4 bg-white shadow-md w-full min-[520px]:w-[90%] h-fit px-4 min-[520px]:px-8 py-8 md:p-12 rounded-lg max-w-2xl mx-4">
+    <section className="flex flex-col space-y-4 bg-white shadow-md w-full min-[520px]:w-[90%] h-fit px-4 min-[520px]:px-8 py-8 md:p-12 rounded-lg max-w-2xl mt-28 xl:mt-0">
       <h2 className="font-bold text-3xl min-[520px]:text-4xl text-center my-2">
         Iniciar sesión
       </h2>
@@ -77,7 +76,10 @@ export default function LoginForm() {
             maxLength={10}
             className="form-input"
             value={id}
-            onChange={(e) => setId(e.target.value)}
+            onChange={(e) => {
+              const filteredValue = e.target.value.replace(/[^0-9]/g, "");
+              setId(filteredValue);
+            }}
           ></input>
 
           <label
