@@ -47,7 +47,6 @@ const SieLayout = ({ children }) => {
   
   return (
     <div className="flex flex-col">
-      <script src="https://cdn.userway.org/widget.js" data-account="lrAGrxycOe"></script>
       <HeaderNav />
       <main className="flex-grow min-h-screen bg-[#F5F0EA]">{children}</main>
     </div>

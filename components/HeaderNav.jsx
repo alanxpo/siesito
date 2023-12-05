@@ -136,7 +136,9 @@ const HeaderNav = () => {
   }, [isMenuOpen]);
 
   return (
+    
     <header>
+      <script src="https://cdn.userway.org/widget.js" data-account="lrAGrxycOe"></script>
       <Navbar maxWidth="2xl" height={"3rem"} className="bg-primary">
         <NavbarContent>
           <NavbarBrand>
