@@ -3,11 +3,7 @@ import SieLayout from "@/components/SieLayout";
 import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import {
-  IconClock,
-  IconId,
-  IconSpeakerphone,
-} from "@tabler/icons-react";
+import { IconClock, IconId, IconSpeakerphone } from "@tabler/icons-react";
 import HorarioTable from "@/components/HorarioTable";
 import Loading from "@/components/Loading";
 
@@ -61,17 +57,17 @@ export default function Sie() {
         <Loading />
       ) : (
         <section className="mx-auto mt-4 xl:mt-8 max-w-7xl h-full ">
-          <div className="items-center grid  xl:grid-cols-4  gap-2">
+          <div className="items-center grid  xl:grid-cols-4  gap-2 xl:col-span-3  flex-row h-full overflow-auto shadow-md  mx-2 bg-white rounded-md">
             <div className="hidden xl:block xl:col-span-1 flex-col space-y-6 xl:space-y-2 xl:space-x-6 xl:ml-8">
               <Image
-                className="rounded-full border-2 border-secondary xl:w-full"
+                className="rounded-full border-1  xl:w-full"
                 src="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
                 fallbackSrc="https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
                 alt="Foto de perfil"
               />
             </div>
 
-            <div className="xl:col-span-3 flex flex-col h-full overflow-auto shadow-md  mx-2">
+            <div className="xl:col-span-3 flex flex-col h-full overflow-auto">
               <div className="flex flex-col px-4 py-6 xl:py-6 w-full text-base rounded-md h-full bg-white">
                 <div className="flex gap-2 flex-row mb-2 items-center">
                   <IconId /> <p>Datos generales</p>

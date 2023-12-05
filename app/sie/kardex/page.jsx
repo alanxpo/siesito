@@ -132,7 +132,7 @@ const page = () => {
                     <td
                       className={`${
                         subjectsList[rowIndex]
-                          ? "hover:bg-[#90e0ef] border border-gray-300"
+                          ? "hover:bg-[#90e0ef] border border-gray-500"
                           : ""
                       } ${
                         subjectsList[rowIndex]
@@ -142,7 +142,7 @@ const page = () => {
                       key={index}
                     >
                       {subjectsList[rowIndex] && (
-                        <div className="flex flex-col items-start h-[85px] p-2">
+                        <div className="flex flex-col items-start h-[85px] w-[136px] p-2">
                           <p className="text-start text-xs">
                             CRÉDITOS:{" "}
                             {
