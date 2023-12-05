@@ -113,7 +113,7 @@ const page = () => {
           <Loading />
         ): (
           <section className="xl:mx-auto bg-white mx-4 mt-4 mb-4 xl:mt-8 max-w-7xl h-full px-2 shadow-md rounded-md p-2">
-        <div className="overflow-auto h-full p-2 rounded-md">
+        <div className="overflow-auto h-full p-2 rounded-md flex flex-col">
           <div className="flex gap-2 flex-row mb-2 items-center justify-center text-lg">
             <IconTable /> <p>Kardex</p>
           </div>
@@ -142,7 +142,7 @@ const page = () => {
                       key={index}
                     >
                       {subjectsList[rowIndex] && (
-                        <div className="flex flex-col items-start h-[85px] w-[136px] p-2">
+                        <div className="flex flex-col items-start h-[85px] w-[135px] p-2">
                           <p className="text-start text-xs">
                             CRÉDITOS:{" "}
                             {

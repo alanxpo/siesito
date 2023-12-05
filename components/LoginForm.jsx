@@ -1,6 +1,7 @@
 "use client";
 
 import { IconExclamationCircle, IconX } from "@tabler/icons-react";
+import { Spinner } from "@nextui-org/spinner";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function LoginForm() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   //Usuario de prueba
   //email: pruebatest@gmail.com
@@ -20,13 +22,13 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const res = await signIn("credentials", {
       id,
       password,
       redirect: false,
     });
-
+    setLoading(false);
     if (res.error) {
       setErrorMessage(true);
       setTimeout(() => {
@@ -99,11 +101,16 @@ export default function LoginForm() {
             onChange={(e) => setPassword(e.target.value)}
           ></input>
         </div>
+
         <button
           type="submit"
-          className="bg-[#8D0D30] w-full mx-auto px-6 py-2 rounded text-white text-sm font-semibold"
+          className="bg-[#8D0D30] w-full mx-auto px-6 py-2 rounded text-white text-sm font-semibold flex items-center justify-center"
         >
-          Ingresar
+          {loading ? (
+            <Spinner color="white" size="sm" className="mr-2" />
+          ) : (
+            "Ingresar"
+          )}
         </button>
       </form>
 

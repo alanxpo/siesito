@@ -1,8 +1,6 @@
-import Link from "next/link";
-
 export default function Footer() {
   return (
-    <footer className="bg-[#052E16] w-screen h-[20%] p-4 text-white text-left mt-32 xl:mt-0">
+    <footer className="bg-[#052E16] w-screen p-4 text-white text-left mt-28 xl:mt-0">
       <div className="flex flex-col sm:flex-row items-start justify-around">
         <div className="mb-4 sm:mb-0">
           <img
