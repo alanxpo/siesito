@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { IconFileInfo, IconFileUpload } from "@tabler/icons-react";
 import React from "react";
 import { useState } from "react";
@@ -7,9 +6,16 @@ import { useState } from "react";
 const FileUpload = ({ title, type, children }) => {
   const [file, setFile] = useState();
 
+  const isValidPDF = (fileName) => {
+    return fileName.toLowerCase().endsWith(".pdf");
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file || !isValidPDF(file.name)) {
+      console.error("Please select a valid PDF file.");
+      return;
+    }
     try {
       const data = new FormData();
       data.set("file", file);
@@ -40,6 +46,7 @@ const FileUpload = ({ title, type, children }) => {
         >
           <input
             type="file"
+            accept=".pdf"
             name="file"
             onChange={(e) => setFile(e.target.files?.[0])}
             className="flex items-center space-x-1 px-4 py-2 bg-secondary rounded-md text-white"
