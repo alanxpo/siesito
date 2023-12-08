@@ -73,7 +73,6 @@ const HorarioTable = () => {
         <TableColumn className="uppercase text-xs leading-normal xl:text-sm">
           Docente
         </TableColumn>
-
         {filteredDaysOfWeek.map((day) => (
           <TableColumn
             key={day}
